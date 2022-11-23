@@ -20,7 +20,7 @@ bash nvidia-scripts.sh
 
 Build the docker image
 ```
-docker build -t tiago++ https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_nvidia
+docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_nvidia
 ```
 
 Start a terminal inside docker
@@ -31,8 +31,8 @@ docker run -it --net=host --gpus all \
     --env="DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-    --name="tiago_project"\
-    tiago++ \
+    --name="tiago_dual_project"\
+    tiago_dual \
     bash
 ```
 
@@ -40,7 +40,7 @@ docker run -it --net=host --gpus all \
 
 Build the docker image
 ```
-docker build -t tiago https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_no_GPU
+docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_no_GPU
 ```
 
 Start a terminal inside docker
@@ -50,14 +50,14 @@ docker run -it --net=hos \
     --env="DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-    --name="tiago++_project"\
-    tiago++ \
+    --name="tiago_dual_project"\
+    tiago_dual \
     bash
 ```
 
 You can open an ew terminal and connect to the running container
 ```
-docker exec -it tiago_project bash
+docker exec -it tiago_dual_project bash
 ```
 
 Next, Try the [Pick and place tutorial](http://wiki.ros.org/Robots/TIAGo/Tutorials/MoveIt/Pick_place)
