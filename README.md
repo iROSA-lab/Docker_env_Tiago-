@@ -12,13 +12,13 @@ docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_en
 
 Start a terminal inside docker
 ```
-docker run -it --net=hos \
-    --privileged \
+docker run -it --net=host \
     --env="DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    -v "$SSH_AUTH_SOCK:$SSH_AUTH_SOCK" -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK\
     --name="tiago_dual_project"\
-    tiago_dual \
+    --privileged tiago_dual \
     bash
 ```
 
@@ -54,6 +54,7 @@ docker run -it --net=host --gpus all \
     --env="DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    -v "$SSH_AUTH_SOCK:$SSH_AUTH_SOCK" -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK\
     --name="tiago_dual_project"\
     tiago_dual \
     bash
@@ -73,6 +74,7 @@ docker run -it --net=hos \
     --env="DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    -v "$SSH_AUTH_SOCK:$SSH_AUTH_SOCK" -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK\
     --name="tiago_dual_project"\
     tiago_dual \
     bash
