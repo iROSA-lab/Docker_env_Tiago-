@@ -84,7 +84,7 @@ docker run -it --net=hos \
 
 Start the docker container
 ```
-docker start tiago_dual
+docker start tiago_dual_project
 ```
 Then open a new terminal and connect to the running container
 ```
