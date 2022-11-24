@@ -10,22 +10,24 @@ Table of contents
 ### Windows:
 Follow the instructions to [install docker](https://docs.docker.com/desktop/install/windows-install/)
 
+Setup X server for X11 forwarding, follow the instructions in [this post](https://medium.com/@potatowagon/how-to-use-gui-apps-in-linux-docker-container-from-windows-host-485d3e1c64a3)
+
+Run `ipconfig` and keep the **IPv4 address** to use it as `<windows_ip>`
+
 Then you have two options:
 * If your PC has an NVIDIA GPU
     Build the docker image
     ```
     docker build -t tiago https://raw.githubusercontent.com/Alonso94/Tiago_project/master/Dockerfile_nvidia
     ```
-    Then run
+    Create a container
     ```
     docker run -it --net=host --gpus all ^
         --privileged ^
         --env="NVIDIA_DRIVER_CAPABILITIES=all" ^
-        --env="DISPLAY" ^
-        --env="QT_X11_NO_MITSHM=1" ^
-        --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" ^
-        --name="tiago_project"^
-        tiago ^
+        --env="DISPLAY=<windows_ip>:0" ^
+        --name="tiago_dual_project"^
+        tiago_dual ^
         bash
     ```
 
@@ -34,31 +36,31 @@ Then you have two options:
     ```
     docker build -t tiago https://raw.githubusercontent.com/Alonso94/Tiago_project/master/Dockerfile_no_GPU
     ```
-    Start a terminal inside docker
+    Create a container
     ```
     docker run -it --net=host ^
         --privileged ^
-        --env="DISPLAY" ^
-        --env="QT_X11_NO_MITSHM=1" ^
-        --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" ^
-        --name="tiago_project"^
-        tiago ^
+        --env="DISPLAY=<windows_ip>:0" ^
+        --name="tiago_dual_project"^
+        tiago_dual ^
         bash
     ```
 
 
 ### MacOS:
-Follow the instructions [here](https://docs.docker.com/desktop/install/mac-install/)
+Follow the instructions Follow the instructions to [install docker](https://docs.docker.com/desktop/install/mac-install/)
 
+Setup X server for X11 forwarding, follow the instructions in [this gist](https://gist.github.com/sorny/969fe55d85c9b0035b0109a31cbcb088)
 Build the docker image
 ```
 docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_no_GPU
 ```
 
-Start a terminal inside docker
+Create a container
 ```
+ip=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
 docker run -it --net=host \
-    --env="DISPLAY" \
+    --env="DISPLAY=$ip:0" \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     -v "$SSH_AUTH_SOCK:$SSH_AUTH_SOCK" -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK\
@@ -78,6 +80,11 @@ Install docker
 wget https://desktop.docker.com/linux/main/amd64/docker-desktop-4.14.1-amd64.deb
 sudo apt install ~/Downloads/docker-desktop-4.14.1-amd64.deb
 ```
+Allow X11 forwarding via xhost
+```
+xhost +
+```
+
 Then you have two options:
 * If your PC has an NVIDIA GPU
     Run the scripts for nvidia drivers
@@ -90,7 +97,7 @@ Then you have two options:
     docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_nvidia
     ```
 
-    Start a terminal inside docker
+    Create a container
     ```
     docker run -it --net=host --gpus all \
         --privileged \
@@ -110,7 +117,7 @@ Then you have two options:
     docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_no_GPU
     ```
 
-    Start a terminal inside docker
+    Create a container
     ```
     docker run -it --net=host \
         --privileged \
