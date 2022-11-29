@@ -16,10 +16,11 @@ RUN rosdep init \
  && rosdep fix-permissions \
  && rosdep update
 RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+RUN echo 'export LIBGL_ALWAYS_INDIRECT=1' >> ~/.bashrc
 
 RUN apt-get install -y wget python-rosinstall python-rosinstall-generator python-catkin-tools git \
          gcc clang clang-tools cmake python3 libv4l-dev libv4l2rds0 locales aptitude python-networkx\
-         python-pip python-wstool python-scipy python3-vcstool
+         python-pip python-wstool python-scipy python3-vcstool mesa-utils libgl1-mesa-glx libcanberra-gtk-module libcanberra-gtk3-module
 
 RUN mkdir -p tiago_dual_public_ws/src
 RUN cd tiago_dual_public_ws
