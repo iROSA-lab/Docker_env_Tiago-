@@ -10,7 +10,18 @@ Table of contents
 ### Windows:
 Follow the instructions to [install docker](https://docs.docker.com/desktop/install/windows-install/)
 
-Setup X server for X11 forwarding, follow the instructions in [this post](https://medium.com/@potatowagon/how-to-use-gui-apps-in-linux-docker-container-from-windows-host-485d3e1c64a3)
+Open the command line and install choco
+```
+@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command " [System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+```
+Then install X serever
+```
+choco install vcxsrv
+```
+Launch the X server from the command line
+```
+"C:\Program Files\VcXsrv\vcxsrv.exe" :0 -multiwindow -clipboard -nowgl -ac
+``` 
 
 Run `ipconfig` and keep the **IPv4 address** to use it as `<windows_ip>`
 
