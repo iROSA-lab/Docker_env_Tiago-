@@ -70,6 +70,10 @@ Build the docker image
 ```
 docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_no_GPU
 ```
+Then run
+```
+defaults write org.xquartz.X11 enable_iglx -bool true
+```
 
 Create a container
 ```
