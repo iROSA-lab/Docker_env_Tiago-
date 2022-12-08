@@ -106,6 +106,7 @@ xhost +
 ```
 
 Then you have two options:
+(In case of getting some errors, try using `sudo docker ...`)
 * If your PC has an NVIDIA GPU
     Run the scripts for nvidia drivers
     ```
