@@ -162,7 +162,7 @@ For each new terminal, connect to the running container
 docker exec -it tiago_dual_project bash
 ```
 
-Next, Try the [Pick and place tutorial](http://wiki.ros.org/Robots/TIAGo/Tutorials/MoveIt/Pick_place)
+Next, Try the [Planning in cartesian space tutorial](http://wiki.ros.org/Robots/TIAGo%2B%2B/Tutorials/MoveIt/Planning_cartesian_space)
 
 You can stop the docker when you are done
 ```
