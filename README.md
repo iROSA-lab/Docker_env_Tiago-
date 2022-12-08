@@ -64,9 +64,11 @@ Then you have two options:
 
 ### MacOS:
 (Gazebo does not work on MAC)
-Follow the instructions Follow the instructions to [install docker](https://docs.docker.com/desktop/install/mac-install/)
+
+Follow the instructions to [install docker](https://docs.docker.com/desktop/install/mac-install/)
 
 Setup X server for X11 forwarding, follow the instructions in [this gist](https://gist.github.com/sorny/969fe55d85c9b0035b0109a31cbcb088)
+
 Build the docker image
 ```
 docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_no_GPU
@@ -106,6 +108,7 @@ xhost +
 ```
 
 Then you have two options:
+
 (In case of getting some errors, try using `sudo docker ...`)
 * If your PC has an NVIDIA GPU
     Run the scripts for nvidia drivers
