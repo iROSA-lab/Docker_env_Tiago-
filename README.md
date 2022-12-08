@@ -3,7 +3,7 @@
 The instructions to setup a docker image for Tiago++ in ROS, with X11 forwarding to use stream GUI to the monitor of the host PC.
 Table of contents
 1. [Setup the docker container in Windows](#windows)
-2. [Setup the docker container in MacOS](#macos)
+2. [Setup the docker container in MacOS](#macos) (Gazebo Does not work)
 3. [Setup the docker container in Linux](#linux)
 4. [Using the docker container](#usage)
 
@@ -63,6 +63,7 @@ Then you have two options:
 
 
 ### MacOS:
+(Gazebo does not work on MAC)
 Follow the instructions Follow the instructions to [install docker](https://docs.docker.com/desktop/install/mac-install/)
 
 Setup X server for X11 forwarding, follow the instructions in [this gist](https://gist.github.com/sorny/969fe55d85c9b0035b0109a31cbcb088)
