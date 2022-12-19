@@ -160,6 +160,10 @@ Start the docker container (only once)
 ```
 docker start tiago_dual_project
 ```
+Allow X11 forwarding via xhost
+```
+xhost +
+```
 For each new terminal, connect to the running container
 ```
 docker exec -it tiago_dual_project bash
