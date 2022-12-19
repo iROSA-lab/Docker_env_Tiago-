@@ -28,6 +28,9 @@ RUN cd tiago_dual_public_ws
 RUN wget https://raw.githubusercontent.com/pal-robotics/tiago_dual_tutorials/master/tiago_dual_public-melodic.rosinstall
 RUN rosinstall src /opt/ros/melodic tiago_dual_public-melodic.rosinstall
 RUN vcs import tiago_dual_public_ws/src < tiago_dual_public-melodic.rosinstall
+RUN bash -c "cd tiago_dual_public_ws/src/tiago_moveit_config \
+        git checkout 1.2.3 \
+        cd ../.."
 
 RUN rosdep update
 RUN rosdep install --from-paths tiago_dual_public_ws/src --ignore-src -y --rosdistro melodic --skip-keys="opencv2 opencv2-nonfree pal_laser_filters speed_limit_node\
