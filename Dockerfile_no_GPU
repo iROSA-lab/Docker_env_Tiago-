@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 # Minimal setup
 RUN apt-get update \
- && apt-get install -y locales lsb-release gnupg2
+ && apt-get install -y locales lsb-release gnupg2 apt-utils
 ARG DEBIAN_FRONTEND=noninteractive
 RUN dpkg-reconfigure locales
  
