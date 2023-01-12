@@ -29,7 +29,7 @@ Then you have two options:
 * If your PC has an NVIDIA GPU
     Build the docker image
     ```
-    docker build -t tiago https://raw.githubusercontent.com/Alonso94/Tiago_project/master/Dockerfile_nvidia
+    docker build -t tiago https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_nvidia
     ```
     Create a container
     ```
@@ -47,7 +47,7 @@ Then you have two options:
 * If your PC does not have an NVIDIA GPU
     Build the docker image
     ```
-    docker build -t tiago https://raw.githubusercontent.com/Alonso94/Tiago_project/master/Dockerfile_no_GPU
+    docker build -t tiago https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_no_GPU
     ```
     Create a container
     ```
