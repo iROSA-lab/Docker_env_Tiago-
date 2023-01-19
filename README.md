@@ -95,12 +95,19 @@ docker run -it --net=host \
 Update `init-system-helpers`
 ```
 wget http://ftp.kr.debian.org/debian/pool/main/i/init-system-helpers/init-system-helpers_1.60_all.deb
-sudo apt install ~/Downloads/init-system-helpers_1.60_all.deb
+sudo apt install init-system-helpers_1.60_all.deb
 ```
 Install docker
 ```
+sudo apt install curl qemu-system-x86 pass uidmap
+sudo apt install -y ca-certificates curl gnupg lsb-release
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update -y
 wget https://desktop.docker.com/linux/main/amd64/docker-desktop-4.14.1-amd64.deb
-sudo apt install ~/Downloads/docker-desktop-4.14.1-amd64.deb
+sudo dpkg -i docker-desktop-4.14.1-amd64.deb
+sudo snap install docker
 ```
 Allow X11 forwarding via xhost
 ```
@@ -114,6 +121,9 @@ Then you have two options:
     Run the scripts for nvidia drivers
     ```
     bash nvidia-scripts.sh
+    sudo apt install -y nvidia-docker2
+    sudo systemctl daemon-reload
+    sudo systemctl restart docker
     ```
 
     Build the docker image
