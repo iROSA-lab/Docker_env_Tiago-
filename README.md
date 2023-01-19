@@ -113,6 +113,12 @@ Allow X11 forwarding via xhost
 ```
 xhost +
 ```
+Docker setup
+```
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+```
 
 Then you have two options:
 
