@@ -107,7 +107,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.
 sudo apt update -y
 wget https://desktop.docker.com/linux/main/amd64/docker-desktop-4.14.1-amd64.deb
 sudo dpkg -i docker-desktop-4.14.1-amd64.deb
-sudo snap install docker
+sudo apt install containerd docker.io
 ```
 Allow X11 forwarding via xhost
 ```
