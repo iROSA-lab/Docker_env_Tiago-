@@ -29,7 +29,7 @@ Then you have two options:
 * If your PC has an NVIDIA GPU
     Build the docker image
     ```
-    docker build -t tiago https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_nvidia
+    docker build -t tiago https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/Dockerfile_nvidia
     ```
     Create a container
     ```
@@ -47,7 +47,7 @@ Then you have two options:
 * If your PC does not have an NVIDIA GPU
     Build the docker image
     ```
-    docker build -t tiago https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_no_GPU
+    docker build -t tiago https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/Dockerfile_no_GPU
     ```
     Create a container
     ```
@@ -71,7 +71,7 @@ Setup X server for X11 forwarding, follow the instructions in [this gist](https:
 
 Build the docker image
 ```
-docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_no_GPU
+docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/Dockerfile_no_GPU
 ```
 Then run
 ```
@@ -134,7 +134,7 @@ Then you have two options:
 
     Build the docker image
     ```
-    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_nvidia
+    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/Dockerfile_nvidia
     ```
 
     Create a container
@@ -154,7 +154,7 @@ Then you have two options:
 * If your PC does not have NVIDIA
     Build the docker image
     ```
-    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_no_GPU
+    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/Dockerfile_no_GPU
     ```
 
     Create a container
