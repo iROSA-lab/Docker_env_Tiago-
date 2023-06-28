@@ -5,7 +5,7 @@ Table of contents
 1. [Setup the docker container in Linux](#linux)
 2. [Using the docker container](#usage)
 
-Additionally, you can find the [instructions to setup the docker in Windows and MacOS](https://github.com/iROSA-lab/Docker_env_Tiago/blob/main/Windows_Mac.md)
+Additionally, you can find the [instructions to setup the docker in Windows and MacOS](https://github.com/iROSA-lab/Docker_env/blob/main/Windows_Mac.md)
 
 ### Linux:
 Update `init-system-helpers`
@@ -41,7 +41,7 @@ Then you have two options:
 * If your PC has an NVIDIA GPU
     Run the scripts for nvidia drivers
     ```
-    wget https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/nvidia-scripts.sh
+    wget https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/nvidia-scripts.sh
     bash nvidia-scripts.sh
     sudo apt install -y nvidia-docker2
     sudo systemctl daemon-reload
@@ -51,11 +51,11 @@ Then you have two options:
     Build the docker image <br>
     For **Tiago**:
     ```
-    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/Docker_tiago/Dockerfile_nvidia
+    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_tiago/Dockerfile_nvidia
     ```
     For **Franka**:
     ```
-    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/Docker_franka/Dockerfile_nvidia
+    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_franka/Dockerfile_nvidia
     ```
 
     Create a container
@@ -76,11 +76,11 @@ Then you have two options:
     Build the docker image <br>
     For **Tiago**:
     ```
-    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/Docker_tiago/Dockerfile_no_GPU
+    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_tiago/Dockerfile_no_GPU
     ```
     For **Franka**:
     ```
-    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/Docker_franka/Dockerfile_no_GPU
+    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_franka/Dockerfile_no_GPU
     ```
 
     Create a container
