@@ -1,0 +1,64 @@
+# Get an already existing image of ubuntu 20.04
+FROM ubuntu:20.04
+
+# Minimal setup
+RUN apt-get update && apt-get install -y \
+    curl \
+    locales \
+    lsb-release \
+    gnupg2 \
+    mesa-utils
+
+# Install packages without prompting the user to answer any questions
+ARG DEBIAN_FRONTEND=noninteractive
+RUN dpkg-reconfigure locales
+
+# Install ROS Noetic
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
+
+# Installing ROS and dependencies
+RUN apt-get update && apt-get install -y \
+    ros-noetic-desktop-full \
+    python3-rosdep \
+    python3-rosinstall \
+    python3-rosinstall-generator \
+    python3-wstool \
+    build-essential
+
+# Initialize rosdep
+RUN rosdep init && rosdep update
+
+# Source ROS
+RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+
+# Install Franka packages
+RUN apt-get update && apt-get install -y \
+    ros-noetic-libfranka \
+    ros-noetic-franka-ros
+
+RUN mkdir -p franka_ws/src
+
+RUN bash -c "source /opt/ros/noetic/setup.bash"
+
+# wget http://ftp.kr.debian.org/debian/pool/main/i/init-system-helpers/init-system-helpers_1.60_all.deb
+# sudo apt install init-system-helpers_1.60_all.deb
+
+# xhost +
+
+# docker build -t franka .
+
+# docker run -it --net=host \
+#     --privileged \
+#     --env="DISPLAY" \
+#     --env="QT_X11_NO_MITSHM=1" \
+#     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+#     -v "$SSH_AUTH_SOCK:$SSH_AUTH_SOCK" -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK\
+#     --name="franka"\
+#     franka \
+#     bash
+
+# docker start franka
+# xhost +
+# docker exec -it franka bash
+# docker stop franka
