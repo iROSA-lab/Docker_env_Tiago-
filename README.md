@@ -48,9 +48,14 @@ Then you have two options:
     sudo systemctl restart docker
     ```
 
-    Build the docker image
+    Build the docker image <br>
+    For **Tiago**:
     ```
-    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/Dockerfile_nvidia
+    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/Docker_tiago/Dockerfile_nvidia
+    ```
+    For **Franka**:
+    ```
+    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/Docker_franka/Dockerfile_nvidia
     ```
 
     Create a container
@@ -62,15 +67,20 @@ Then you have two options:
         --env="QT_X11_NO_MITSHM=1" \
         --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
         -v "$SSH_AUTH_SOCK:$SSH_AUTH_SOCK" -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK\
-        --name="tiago_dual_project"\
-        tiago_dual \
+        --name="<docker_name>"\
+        <docker_name> \
         bash
     ```
 
 * If your PC does not have NVIDIA
-    Build the docker image
+    Build the docker image <br>
+    For **Tiago**:
     ```
-    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/Dockerfile_no_GPU
+    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/Docker_tiago/Dockerfile_no_GPU
+    ```
+    For **Franka**:
+    ```
+    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/main/Docker_franka/Dockerfile_no_GPU
     ```
 
     Create a container
@@ -81,8 +91,8 @@ Then you have two options:
         --env="QT_X11_NO_MITSHM=1" \
         --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
         -v "$SSH_AUTH_SOCK:$SSH_AUTH_SOCK" -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK\
-        --name="tiago_dual_project"\
-        tiago_dual \
+        --name="<docker_name>"\
+        <docker_name> \
         bash
     ```
 
@@ -90,7 +100,7 @@ Then you have two options:
 
 Start the docker container (only once)
 ```
-docker start tiago_dual_project
+docker start <docker_name>
 ```
 Allow X11 forwarding via xhost
 ```
@@ -98,12 +108,9 @@ xhost +
 ```
 For each new terminal, connect to the running container
 ```
-docker exec -it tiago_dual_project bash
+docker exec -it <docker_name> bash
 ```
-
-Next, Try the [Planning in cartesian space tutorial](http://wiki.ros.org/Robots/TIAGo%2B%2B/Tutorials/MoveIt/Planning_cartesian_space)
-
 You can stop the docker when you are done
 ```
-docker stop tiago_dual_project
+docker stop <docker_name> 
 ```
