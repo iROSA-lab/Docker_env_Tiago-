@@ -51,11 +51,11 @@ Then you have two options:
     Build the docker image <br>
     For **Tiago**:
     ```
-    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_tiago/Dockerfile_nvidia
+    docker build -t <docker_name> https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_tiago/Dockerfile_nvidia
     ```
     For **Franka**:
     ```
-    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_franka/Dockerfile_nvidia
+    docker build -t <docker_name> https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_franka/Dockerfile_nvidia
     ```
 
     Create a container
@@ -76,11 +76,11 @@ Then you have two options:
     Build the docker image <br>
     For **Tiago**:
     ```
-    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_tiago/Dockerfile_no_GPU
+    docker build -t <docker_name> https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_tiago/Dockerfile_no_GPU
     ```
     For **Franka**:
     ```
-    docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_franka/Dockerfile_no_GPU
+    docker build -t <docker_name> https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_franka/Dockerfile_no_GPU
     ```
 
     Create a container

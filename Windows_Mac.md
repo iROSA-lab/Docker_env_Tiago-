@@ -4,8 +4,6 @@ The instructions to setup a docker image for Tiago++ and Franka in ROS, with X11
 Table of contents
 1. [Setup the docker container in Windows](#windows)
 2. [Setup the docker container in MacOS](#macos) (Gazebo Does not work)
-3. [Setup the docker container in Linux](#linux)
-4. [Using the docker container](#usage)
 
 ### Windows:
 Follow the instructions to [install docker](https://docs.docker.com/desktop/install/windows-install/)
@@ -27,9 +25,13 @@ Run `ipconfig` and keep the **IPv4 address** to use it as `<windows_ip>`
 
 Then you have two options:
 * If your PC has an NVIDIA GPU
-    Build the docker image
+    For **Tiago**:
     ```
-    docker build -t tiago https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_nvidia
+    docker build -t <docker_name> https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_tiago/Dockerfile_nvidia
+    ```
+    For **Franka**:
+    ```
+    docker build -t <docker_name> https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_franka/Dockerfile_nvidia
     ```
     Create a container
     ```
@@ -39,15 +41,20 @@ Then you have two options:
         --env="QT_X11_NO_MITSHM=1" ^
         --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" ^
         --env="DISPLAY=<windows_ip>:0" ^
-        --name="tiago_dual_project"^
-        tiago_dual ^
+        --name="<docker_name>"^
+        <docker_name> ^
         bash
     ```
 
 * If your PC does not have an NVIDIA GPU
-    Build the docker image
+    Build the docker image <br>
+    For **Tiago**:
     ```
-    docker build -t tiago https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_no_GPU
+    docker build -t <docker_name> https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_tiago/Dockerfile_no_GPU
+    ```
+    For **Franka**:
+    ```
+    docker build -t <docker_name> https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_franka/Dockerfile_no_GPU
     ```
     Create a container
     ```
@@ -56,8 +63,8 @@ Then you have two options:
         --env="DISPLAY=<windows_ip>:0" ^
         --env="QT_X11_NO_MITSHM=1" ^
         --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" ^
-        --name="tiago_dual_project"^
-        tiago_dual ^
+        --name="<docker_name>"^
+        <docker_name> ^
         bash
     ```
 
@@ -69,9 +76,14 @@ Follow the instructions to [install docker](https://docs.docker.com/desktop/inst
 
 Setup X server for X11 forwarding, follow the instructions in [this gist](https://gist.github.com/sorny/969fe55d85c9b0035b0109a31cbcb088)
 
-Build the docker image
+Build the docker image <br>
+For **Tiago**:
 ```
-docker build -t tiago_dual https://raw.githubusercontent.com/iROSA-lab/Docker_env_Tiago/master/Dockerfile_no_GPU
+docker build -t <docker_name> https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_tiago/Dockerfile_no_GPU
+```
+For **Franka**:
+```
+docker build -t <docker_name> https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/Docker_franka/Dockerfile_no_GPU
 ```
 Then run
 ```
@@ -86,8 +98,8 @@ docker run -it --net=host \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     -v "$SSH_AUTH_SOCK:$SSH_AUTH_SOCK" -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK\
-    --name="tiago_dual_project"\
-    --privileged tiago_dual \
+    --name="<docker_name>"\
+    --privileged <docker_name> \
     bash
 ```
 
@@ -95,7 +107,7 @@ docker run -it --net=host \
 
 Start the docker container (only once)
 ```
-docker start tiago_dual_project
+docker start <docker_name>
 ```
 Allow X11 forwarding via xhost
 ```
@@ -103,12 +115,9 @@ xhost +
 ```
 For each new terminal, connect to the running container
 ```
-docker exec -it tiago_dual_project bash
+docker exec -it <docker_name> bash
 ```
-
-Next, Try the [Planning in cartesian space tutorial](http://wiki.ros.org/Robots/TIAGo%2B%2B/Tutorials/MoveIt/Planning_cartesian_space)
-
 You can stop the docker when you are done
 ```
-docker stop tiago_dual_project
+docker stop <docker_name>
 ```
