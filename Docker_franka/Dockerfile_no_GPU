@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install -y \
     locales \
     lsb-release \
     gnupg2 \
-    mesa-utils
+    mesa-utils \
+    apt-transport-https
 
 # Install packages without prompting the user to answer any questions
 ARG DEBIAN_FRONTEND=noninteractive

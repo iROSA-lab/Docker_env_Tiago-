@@ -26,7 +26,8 @@ RUN apt-get update && apt-get install -y \
     python3-rosinstall \
     python3-rosinstall-generator \
     python3-wstool \
-    build-essential
+    build-essential \
+    apt-transport-https
 
 # Initialize rosdep
 RUN rosdep init && rosdep update
