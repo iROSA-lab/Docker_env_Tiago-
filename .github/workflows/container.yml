@@ -32,6 +32,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: $pearl_robots/${{ matrix.robot }}
-          labels: $pearl_robots/${{ matrix.robot }}
+          tags: pearl_robots/${{ matrix.robot }}
+          labels: pearl_robots/${{ matrix.robot }}
           file: ${{ matrix.file }}
