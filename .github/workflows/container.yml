@@ -16,7 +16,7 @@ jobs:
           - robot: tiago_no_gpu
             file: Docker_tiago/Dockerfile_no_GPU
           - robot: franka
-            file: Docker_franka/Dockerfile
+            file: Docker_franka/Dockerfile_nvidia
           - robot: franka_no_gpu
             file: Docker_franka/Dockerfile_no_GPU
     # Steps represent a sequence of tasks that will be executed as part of the job
