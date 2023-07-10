@@ -34,6 +34,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: pearlrobots/${{ matrix.robot }}:latest
-          labels: pearlrobots/${{ matrix.robot }}:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.robot }}:latest
+          labels: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.robot }}:latest
           file: ${{ matrix.file }}
