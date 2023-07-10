@@ -12,13 +12,13 @@ jobs:
       matrix:
         include:
           - robot: tiago_nvidia
-            file: Docker_tiago.Dockerfile_nvidia
+            file: Docker_tiago/Dockerfile_nvidia
           - robot: tiago_no_gpu
-            file: Docker_tiago.Dockerfile_no_GPU
+            file: Docker_tiago/Dockerfile_no_GPU
           - robot: franka
-            file: Docker_franka.Dockerfile
+            file: Docker_franka/Dockerfile
           - robot: franka_no_gpu
-            file: Docker_franka.Dockerfile_no_GPU
+            file: Docker_franka/Dockerfile_no_GPU
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # logs into docker hub
