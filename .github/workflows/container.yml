@@ -32,6 +32,8 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: pearl_robots/${{ matrix.robot }}
-          labels: pearl_robots/${{ matrix.robot }}
+          tags: pearlrobots/${{ matrix.robot }}:latest
+          labels: pearlrobots/${{ matrix.robot }}:latest
           file: ${{ matrix.file }}
+          cache-from: type=gha
+          cache-to: type=gha
