@@ -1,46 +1,63 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 # Minimal setup
-RUN apt-get update \
- && apt-get install -y locales lsb-release gnupg2 apt-utils apt-transport-https
+RUN apt-get update && apt-get install -y \
+    curl \
+    locales \
+    lsb-release \
+    gnupg2 \
+    mesa-utils \
+    apt-transport-https \
+    git \
+    wget \
+    ipython3
+
+# Install packages without prompting the user to answer any questions
 ARG DEBIAN_FRONTEND=noninteractive
 RUN dpkg-reconfigure locales
- 
-# Install ROS Melodic
+
+# Install ROS Noetic
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-RUN apt-get update \
- && apt-get install -y --no-install-recommends ros-melodic-desktop-full
-RUN apt-get install -y --no-install-recommends python3-rosdep
-RUN rosdep init \
- && rosdep fix-permissions \
- && rosdep update
-RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
+
 RUN echo 'export LIBGL_ALWAYS_INDIRECT=1' >> ~/.bashrc
 
-RUN apt-get install -y git wget python-rosinstall python-rosinstall-generator python-catkin-tools git \
-         gcc clang clang-tools cmake python3 libv4l-dev libv4l2rds0 locales aptitude python-networkx\
-         python-pip python-wstool python-scipy python3-vcstool mesa-utils libgl1-mesa-glx libcanberra-gtk-module libcanberra-gtk3-module
+# Installing ROS and dependencies
+RUN apt-get update && apt-get install -y \
+    ros-noetic-desktop-full \
+    python3-rosdep \
+    python3-rosinstall \
+    python3-rosinstall-generator \
+    python3-wstool \
+    python3-catkin-tools \
+    python-is-python3 \
+    ros-noetic-actionlib-tools \
+    ros-noetic-moveit-commander \
+    build-essential 
 
+# Initialize rosdep
+RUN rosdep init && rosdep update
+
+# Source ROS
+RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+
+# create the workspace directory
 RUN mkdir -p tiago_dual_public_ws/src
-RUN cd tiago_dual_public_ws
 
-RUN wget https://raw.githubusercontent.com/pal-robotics/tiago_dual_tutorials/master/tiago_dual_public-melodic.rosinstall
-RUN rosinstall src /opt/ros/melodic tiago_dual_public-melodic.rosinstall
-RUN vcs import tiago_dual_public_ws/src < tiago_dual_public-melodic.rosinstall
-RUN bash -c "cd tiago_dual_public_ws/src/tiago_moveit_config \
-        && git checkout 1.2.3 \
-        && cd ../.."
+# install tiago_dual_public packages
+RUN wget https://raw.githubusercontent.com/pal-robotics/tiago_dual_tutorials/master/tiago_dual_public-noetic.rosinstall
+RUN rosinstall tiago_dual_public_ws/src /opt/ros/noetic tiago_dual_public-noetic.rosinstall
 
+# install dependencies
 RUN rosdep update
-RUN rosdep install --from-paths src --ignore-src -y --rosdistro melodic --skip-keys="opencv2 opencv2-nonfree pal_laser_filters\
-                   speed_limit_node sensor_to_cloud hokuyo_node libdw-dev python-graphitesend-pip python-statsd pal_filters \
-                   pal_vo_server pal_usb_utils pal_pcl pal_pcl_points_throttle_and_filter pal_karto pal_local_joint_control \
-                   camera_calibration_files pal_startup_msgs pal-orbbec-openni2 dummy_actuators_manager pal_local_planner\
-                   gravity_compensation_controller current_limit_controller dynamic_footprint dynamixel_cpp tf_lookup\
-                   slam_toolbox joint_impedance_trajectory_controller cartesian_impedance_controller omni_base_description\
-                   omni_drive_controller pal_moveit_capabilities pal_moveit_plugins  pal_loc_measure pal_map_manager"
-RUN bash -c "source /opt/ros/melodic/setup.bash \
+RUN rosdep install -y --from-paths tiago_dual_public_ws/src --ignore-src --rosdistro noetic --skip-keys "urdf_test omni_drive_controller \
+                orocos_kdl pal_filters libgazebo9-dev pal_usb_utils speed_limit_node camera_calibration_files pal_moveit_plugins \
+                pal_startup_msgs pal_local_joint_control pal_pcl_points_throttle_and_filter current_limit_controller hokuyo_node \
+                dynamixel_cpp pal_moveit_capabilities pal_pcl dynamic_footprint gravity_compensation_controller pal-orbbec-openni2 \
+                pal_loc_measure pal_map_manager joint_impedance_trajectory_controller ydlidar_ros_driver"
+
+# build the workspace
+RUN bash -c "source /opt/ros/noetic/setup.bash \
     && cd tiago_dual_public_ws/\
     && catkin build -DCATKIN_ENABLE_TESTING=0 -j $(expr `nproc` / 2) \
     && echo 'source tiago_dual_public_ws/devel/setup.bash' >> ~/.bashrc"

@@ -67,8 +67,8 @@ Then you have two options:
         --env="QT_X11_NO_MITSHM=1" \
         --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
         -v "$SSH_AUTH_SOCK:$SSH_AUTH_SOCK" -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK\
-        --name="<docker_name>"\
-        <docker_name> \
+        --name="<docker-name>"\
+        <docker-name> \
         bash
     ```
 
