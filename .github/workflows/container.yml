@@ -11,13 +11,13 @@ jobs:
     strategy:
       matrix:
         include:
-          - robot: tiago_nvidia
+          - robot: tiago
             file: Docker_tiago/Dockerfile_nvidia
-          - robot: tiago_no_gpu
+          - robot: tiago_wo_nvidia
             file: Docker_tiago/Dockerfile_no_GPU
           - robot: franka
             file: Docker_franka/Dockerfile_nvidia
-          - robot: franka_no_gpu
+          - robot: franka_wo_nvidia
             file: Docker_franka/Dockerfile_no_GPU
       max-parallel: 1
       fail-fast: true
@@ -34,6 +34,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.robot }}:latest
-          labels: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.robot }}:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/pearl_robots:${{ matrix.robot }}
+          labels: ${{ secrets.DOCKER_USERNAME }}/pearl_robots:${{ matrix.robot }}
           file: ${{ matrix.file }}
