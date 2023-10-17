@@ -13,7 +13,7 @@ Additionally, you can find the [instructions to setup the docker in Windows and 
 Update `init-system-helpers`
 ```
 wget http://ftp.kr.debian.org/debian/pool/main/i/init-system-helpers/init-system-helpers_1.60_all.deb
-sudo apt install init-system-helpers_1.60_all.deb
+sudo apt install ./init-system-helpers_1.60_all.deb
 ```
 Install docker
 ```
@@ -40,7 +40,8 @@ newgrp docker
 
 Create aliases for running docker with and without Nvidia:
 ```
-wget wget https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/create_alias.sh
+wget https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/create_alias.sh
+bash create_alias.sh
 ```
 
 Then you have two options:
