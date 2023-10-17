@@ -27,6 +27,13 @@ RUN apt-get update && apt-get install -y \
     python3-wstool \
     build-essential
 
+# Install Moveit!
+RUN apt-get update -q && \
+    apt-get dist-upgrade -q -y && \
+    apt-get install -y ros-noetic-moveit && \
+    rm -rf /var/lib/apt/lists/*
+
+
 # Initialize rosdep
 RUN rosdep init && rosdep update
 

@@ -1,33 +1,27 @@
-# Get an already existing image of ubuntu 20.04
-FROM nvidia/cudagl:11.1.1-base-ubuntu20.04
+# Base image of ubuntu 20.04, cuda 12.1 and ZED SDK 4
+FROM stereolabs/zed:4.0-devel-cuda12.1-ubuntu20.04
 
-# Minimal setup
-RUN apt-get update && apt-get install -y \
-    curl \
-    locales \
-    lsb-release \
-    gnupg2 \
-    mesa-utils \
-    apt-transport-https
+ENV LOGNAME root
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
 
-# Install packages without prompting the user to answer any questions
-ARG DEBIAN_FRONTEND=noninteractive
-RUN dpkg-reconfigure locales
+# Setup ROS noetic
+RUN apt-get update -y || true && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata curl locales lsb-release gnupg2 mesa-utils apt-transport-https && \
+    sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
+    curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add - && \
+    echo 'export LIBGL_ALWAYS_INDIRECT=1' >> ~/.bashrc && \
+    apt-get update || true &&\
+    DEBIAN_FRONTEND=noninteractive apt-get install -y ros-noetic-desktop-full build-essential cmake usbutils libusb-1.0-0-dev git -y --allow-unauthenticated
 
-# Install ROS Noetic
-RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
+# Install Packages
+RUN apt-get install -y python3-rosdep python3-rosinstall  python3-rosinstall-generator python3-wstool
 
-RUN echo 'export LIBGL_ALWAYS_INDIRECT=1' >> ~/.bashrc
-
-# Installing ROS and dependencies
-RUN apt-get update && apt-get install -y \
-    ros-noetic-desktop-full \
-    python3-rosdep \
-    python3-rosinstall \
-    python3-rosinstall-generator \
-    python3-wstool \
-    build-essential
+# Install Moveit!
+RUN apt-get update -q && \
+    apt-get dist-upgrade -q -y && \
+    apt-get install -y ros-noetic-moveit && \
+    rm -rf /var/lib/apt/lists/*
 
 # Initialize rosdep
 RUN rosdep init && rosdep update
@@ -35,13 +29,20 @@ RUN rosdep init && rosdep update
 # Source ROS
 RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 
+# Setup ROS workspace
+RUN mkdir -p /opt/ros_ws/src
+WORKDIR /opt/ros_ws
+RUN  . /opt/ros/noetic/setup.sh && \
+	    catkin_make 
+
+RUN echo "source /opt/ros_ws/devel/setup.bash" >> ~/.bashrc
+
 # Install Franka packages
 RUN apt-get update && apt-get install -y \
     ros-noetic-libfranka \
     ros-noetic-franka-ros
 
-RUN mkdir -p franka_ws/src
-
+RUN bash -c "source /opt/ros_ws/devel/setup.bash"
 RUN bash -c "source /opt/ros/noetic/setup.bash"
 
 # wget http://ftp.kr.debian.org/debian/pool/main/i/init-system-helpers/init-system-helpers_1.60_all.deb
