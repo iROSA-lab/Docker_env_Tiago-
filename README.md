@@ -62,6 +62,11 @@ Then you have two options:
     docker pull 3liyounes/pearl_robots:tiago
     ```
     For **Franka**:
+    Build the given Docker file in the Docker_franka directory in this repository:
+    ```
+    docker build -t ./Docker_franka/Dockerfile projectlab
+    ```
+    OR use the pre-built docker image avaialable at dockerhub:
     ```
     docker pull 3liyounes/pearl_robots:franka
     ```
@@ -78,6 +83,11 @@ Then you have two options:
     docker pull 3liyounes/pearl_robots:tiago_wo_nvidia
     ```
     For **Franka**:
+    Build the given Docker file in the Docker_franka directory in this repository:
+    ```
+    docker build -t ./Docker_franka/Dockerfile projectlab
+    ```
+    OR use the pre-built docker image avaialable at dockerhub:
     ```
     docker pull 3liyounes/pearl_robots:franka_wo_nvidia
     ```
