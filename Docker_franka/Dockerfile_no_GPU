@@ -37,6 +37,12 @@ RUN apt-get update -q && \
 # Initialize rosdep
 RUN rosdep init && rosdep update
 
+# Setup ROS workspace
+RUN mkdir -p /opt/ros_ws/src
+WORKDIR /opt/ros_ws
+RUN  . /opt/ros/noetic/setup.sh && \
+	    catkin_make 
+
 # Source ROS
 RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 
@@ -45,8 +51,7 @@ RUN apt-get update && apt-get install -y \
     ros-noetic-libfranka \
     ros-noetic-franka-ros
 
-RUN mkdir -p franka_ws/src
-
+RUN bash -c "source /opt/ros_ws/devel/setup.bash"
 RUN bash -c "source /opt/ros/noetic/setup.bash"
 
 # wget http://ftp.kr.debian.org/debian/pool/main/i/init-system-helpers/init-system-helpers_1.60_all.deb

@@ -35,6 +35,7 @@ WORKDIR /opt/ros_ws
 RUN  . /opt/ros/noetic/setup.sh && \
 	    catkin_make 
 
+# Source ROS
 RUN echo "source /opt/ros_ws/devel/setup.bash" >> ~/.bashrc
 
 # Install Franka packages
