@@ -62,13 +62,13 @@ Then you have two options:
     docker pull 3liyounes/pearl_robots:tiago
     ```
     For **Franka**:
-    Build the given Docker file in the Docker_franka directory in this repository:
-    ```
-    docker build -t ./Docker_franka/Dockerfile projectlab
-    ```
-    OR use the pre-built docker image avaialable at dockerhub:
+    Use the pre-built docker image avaialable at dockerhub:
     ```
     docker pull 3liyounes/pearl_robots:franka
+    ```
+    OR build the given Dockerfile in the Docker_franka directory in this repository. Rename the `Dockerfile_nvidia` to `Dockerfile`, enter the Docker_franka folder and then build it:
+    ```
+    docker build -t ./Docker_franka/Dockerfile projectlab
     ```
 
     Create a container
@@ -83,14 +83,16 @@ Then you have two options:
     docker pull 3liyounes/pearl_robots:tiago_wo_nvidia
     ```
     For **Franka**:
-    Build the given Docker file in the Docker_franka directory in this repository:
-    ```
-    docker build -t ./Docker_franka/Dockerfile projectlab
-    ```
-    OR use the pre-built docker image avaialable at dockerhub:
+
+    Use the pre-built docker image avaialable at dockerhub:
     ```
     docker pull 3liyounes/pearl_robots:franka_wo_nvidia
     ```
+    OR Build the given Dockerfile in the Docker_franka directory in this repository. Rename the `Dockerfile_no_GPU` to `Dockerfile`, enter the Docker_franka folder and then build it:
+    ```
+    docker build -t projectlab .
+    ```
+
 
     Create a container
     ```
