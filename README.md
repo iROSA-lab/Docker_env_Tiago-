@@ -68,7 +68,7 @@ Then you have two options:
     ```
     OR build the given Dockerfile in the Docker_franka directory in this repository. Rename the `Dockerfile_nvidia` to `Dockerfile`, enter the Docker_franka folder and then build it:
     ```
-    docker build -t ./Docker_franka/Dockerfile projectlab
+    docker build -t projectlab .
     ```
 
     Create a container
