@@ -42,6 +42,7 @@ Create aliases for running docker with and without Nvidia:
 ```
 wget https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/create_alias.sh
 bash create_alias.sh
+source ~/.bashrc
 ```
 
 Then you have two options:
