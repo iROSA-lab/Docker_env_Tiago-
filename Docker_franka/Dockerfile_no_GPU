@@ -1,3 +1,9 @@
+# This Dockerfile contains ubuntu 20.04, ROS noetic, moveir, libfranka, franka_ros, franka_zed_gazebo and panda_moveit_config
+
+# Autor: sophiamoyen@gmail.com
+# Last updated: 23/09/2024
+
+
 # Get an already existing image of ubuntu 20.04
 FROM ubuntu:20.04
 
@@ -65,12 +71,9 @@ RUN git clone --recursive https://github.com/frankaemika/libfranka \
     && dpkg -i libfranka*.deb
 
 # Install franka_ros
-ARG frankaros_version=0.10.0
-
 WORKDIR /opt/ros_ws/src/
-RUN git clone --recursive https://github.com/frankaemika/franka_ros \
-    && cd franka_ros \
-    && git checkout $frankaros_version 
+RUN git clone --recursive https://github.com/frankaemika/franka_ros
+
 
 WORKDIR /opt/ros_ws/
 RUN . /opt/ros/noetic/setup.sh \
@@ -79,32 +82,15 @@ RUN . /opt/ros/noetic/setup.sh \
 
 # Install franka_zed_gazebo
 RUN cd src && \
-        git clone https://github.com/iROSA-lab/franka_zed_gazebo.git 
+    git clone https://github.com/iROSA-lab/franka_zed_gazebo.git 
+
+# Install panda_moveit_config
+RUN cd src && \
+    git clone https://github.com/moveit/panda_moveit_config.git -b noetic-devel && \
+    rosdep install -y --from-paths . --ignore-src --rosdistro noetic
 
 RUN  . /opt/ros/noetic/setup.sh && \
-	    catkin_make --pkg franka_zed_gazebo
+    catkin_make
 
 RUN bash -c "source /opt/ros_ws/devel/setup.bash"
 RUN bash -c "source /opt/ros/noetic/setup.bash"
-
-# wget http://ftp.kr.debian.org/debian/pool/main/i/init-system-helpers/init-system-helpers_1.60_all.deb
-# sudo apt install init-system-helpers_1.60_all.deb
-
-# xhost +
-
-# docker build -t franka .
-
-# docker run -it --net=host \
-#     --privileged \
-#     --env="DISPLAY" \
-#     --env="QT_X11_NO_MITSHM=1" \
-#     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-#     -v "$SSH_AUTH_SOCK:$SSH_AUTH_SOCK" -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK\
-#     --name="franka"\
-#     franka \
-#     bash
-
-# docker start franka
-# xhost +
-# docker exec -it franka bash
-# docker stop franka
