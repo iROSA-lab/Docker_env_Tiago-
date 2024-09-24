@@ -1,5 +1,14 @@
-# Base image of ubuntu 20.04, cuda 12.1 and ZED SDK 4
-FROM stereolabs/zed:4.0-devel-cuda12.1-ubuntu20.04
+# This image contains the zedd SDK as well as the franka packages
+# If you want to install the zed-ros-wrapper checkout https://github.com/stereolabs/zed-ros-wrapper
+# I was having some problems to install it via docker, so I just installed it after creating the container
+# Watch out with the rosdep command, because it will reinstall the wrong version of libranka, incompatible with the robot at the lab (0.10.0)
+
+# Author: sophiamoyen@gmail.com
+# Last update: 24/09/2024
+
+
+# Base image of ubuntu 20.04, cuda 12.1 and ZED SDK 4.1
+FROM stereolabs/zed:4.1-devel-cuda12.1-ubuntu20.04
 
 ENV LOGNAME root
 ENV LANG C.UTF-8
@@ -55,8 +64,6 @@ RUN git clone --recursive https://github.com/frankaemika/libfranka \
     && dpkg -i libfranka*.deb
 
 # Install franka_ros
-ARG frankaros_version=0.10.0
-
 WORKDIR /opt/ros_ws/src/
 RUN git clone --recursive https://github.com/frankaemika/franka_ros \
     && cd franka_ros \
@@ -69,14 +76,21 @@ RUN . /opt/ros/noetic/setup.sh \
 
 # Install franka_zed_gazebo
 RUN cd src && \
-        git clone https://github.com/iROSA-lab/franka_zed_gazebo.git 
+    git clone https://github.com/iROSA-lab/franka_zed_gazebo.git 
 
-RUN  . /opt/ros/noetic/setup.sh && \
-	    catkin_make --pkg franka_zed_gazebo
+RUN . /opt/ros/noetic/setup.sh && \
+	catkin_make --pkg franka_zed_gazebo
+
+# Install panda_moveit_config
+RUN cd src && \
+    git clone https://github.com/moveit/panda_moveit_config.git -b noetic-devel
+
+RUN . /opt/ros/noetic/setup.sh && \
+    catkin_make -DCMAKE_BUILD_TYPE=Release
 
 RUN bash -c "source /opt/ros_ws/devel/setup.bash"
 RUN bash -c "source /opt/ros/noetic/setup.bash"
-
+RUN bash -c "source ~/.bashrc"
 
 # wget http://ftp.kr.debian.org/debian/pool/main/i/init-system-helpers/init-system-helpers_1.60_all.deb
 # sudo apt install init-system-helpers_1.60_all.deb
