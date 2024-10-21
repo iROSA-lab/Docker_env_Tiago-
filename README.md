@@ -7,7 +7,7 @@ Table of contents
   - [Isaac sim docker](#isaac-sim-docker)
   - [Usage instructions](#usage-instructions)
 
-Additionally, you can find the [instructions to setup the docker in Windows and MacOS](https://github.com/iROSA-lab/Docker_env/blob/main/Windows_Mac.md)
+Additionally, you can find the [instructions to setup the docker in Windows and MacOS](https://github.com/pearl-robot-lab/Docker_env/blob/main/Windows_Mac.md)
 
 ## Linux installation:
 Update `init-system-helpers`
@@ -15,7 +15,7 @@ Update `init-system-helpers`
 wget http://ftp.kr.debian.org/debian/pool/main/i/init-system-helpers/init-system-helpers_1.60_all.deb
 sudo apt install ./init-system-helpers_1.60_all.deb
 ```
-Install docker
+Set up Docker's repository and install the Docker desktop, see [here](https://docs.docker.com/desktop/install/linux/ubuntu/) for more info 
 ```
 sudo apt install curl qemu-system-x86 pass uidmap
 sudo apt install -y ca-certificates curl gnupg lsb-release
@@ -23,6 +23,7 @@ sudo mkdir -p /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt update -y
+sudo apt-get install docker-ce-cli
 wget https://desktop.docker.com/linux/main/amd64/docker-desktop-4.14.1-amd64.deb
 sudo dpkg -i docker-desktop-4.14.1-amd64.deb
 sudo apt install containerd docker.io
@@ -31,18 +32,21 @@ Allow X11 forwarding via xhost
 ```
 xhost +
 ```
-Docker setup
+Manage Docker as a non-root user
 ```
 sudo groupadd docker
 sudo usermod -aG docker $USER
 newgrp docker
 ```
+Verify that you can run `docker` commands without `sudo`
+```
+docker run hello-world
+```
 
 Create aliases for running docker with and without Nvidia:
 ```
-wget https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/create_alias.sh
+wget https://raw.githubusercontent.com/pearl-robot-lab/Docker_env/main/create_alias.sh
 bash create_alias.sh
-source ~/.bashrc
 ```
 
 Then you have two options:
@@ -50,7 +54,7 @@ Then you have two options:
 * If your PC has an NVIDIA GPU
     Run the scripts for nvidia drivers
     ```
-    wget https://raw.githubusercontent.com/iROSA-lab/Docker_env/main/nvidia-scripts.sh
+    wget https://raw.githubusercontent.com/pearl-robot-lab/Docker_env/main/nvidia-scripts.sh
     bash nvidia-scripts.sh
     sudo apt install -y nvidia-docker2
     sudo systemctl daemon-reload
@@ -63,7 +67,7 @@ Then you have two options:
     docker pull 3liyounes/pearl_robots:tiago
     ```
     For **Franka**:
-    Use the pre-built docker image avaialable at dockerhub:
+    Use the pre-built docker image available at dockerhub:
     ```
     docker pull 3liyounes/pearl_robots:franka
     ```
@@ -85,7 +89,7 @@ Then you have two options:
     ```
     For **Franka**:
 
-    Use the pre-built docker image avaialable at dockerhub:
+    Use the pre-built docker image available at dockerhub:
     ```
     docker pull 3liyounes/pearl_robots:franka_wo_nvidia
     ```
