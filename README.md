@@ -76,9 +76,10 @@ Then you have two options:
     docker build -t projectlab .
     ```
 
-    Create a container
+    **Create a container with a name** to contain the pulled image (only once!)
     ```
-    docker_run_nvidia --name="<docker-name>" <docker-name> bash
+    source ~/.bashrc
+    docker_run_nvidia --name=container_name 3liyounes/pearl_robots:franka bash
     ```
 
 * If your PC does not have NVIDIA
@@ -98,10 +99,10 @@ Then you have two options:
     docker build -t projectlab .
     ```
 
-
-    Create a container
+    **Create a container with a name** to contain the pulled image (only once!)
     ```
-    docker_run_no_gpu --name="<docker_name>" <docker_name> bash
+    source ~/.bashrc
+    docker_run_no_gpu --name=container_name 3liyounes/pearl_robots:franka_wo_nvidia bash
     ```
 
 ## Isaac sim docker
@@ -130,17 +131,25 @@ go to [https://ngc.nvidia.com/signin/email](https://ngc.nvidia.com/signin/email)
 
 Start the docker container (only once)
 ```
-docker start <docker_name>
+docker start container_name
+```
+List existing containers and their names
+```
+docker ps -a 
 ```
 Allow X11 forwarding via xhost
 ```
 xhost +
 ```
-For each new terminal, connect to the running container
+For each new terminal, **connect to the built container**
 ```
-docker exec -it <docker_name> bash
+docker exec -it container_name bash
 ```
 You can stop the docker when you are done
 ```
-docker stop <docker_name> 
+docker stop container_name 
+```
+Remove a container if you want to delete everything in it
+```
+docker rm container_name
 ```
