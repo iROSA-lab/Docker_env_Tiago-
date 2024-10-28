@@ -51,8 +51,9 @@ bash create_alias.sh
 
 Then you have two options:
 
-* If your PC has an NVIDIA GPU
-    Run the scripts for nvidia drivers
+* If your PC has an Nvidia GPU:
+
+    Run the scripts for Nvidia drivers
     ```
     wget https://raw.githubusercontent.com/pearl-robot-lab/Docker_env/main/nvidia-scripts.sh
     bash nvidia-scripts.sh
@@ -60,14 +61,14 @@ Then you have two options:
     sudo systemctl daemon-reload
     sudo systemctl restart docker
     ```
+    Pull the docker image
 
-    Build the docker image <br>
     For **Tiago**:
     ```
     docker pull 3liyounes/pearl_robots:tiago
     ```
     For **Franka**:
-    Use the pre-built docker image available at dockerhub:
+    use the pre-built docker image available at dockerhub:
     ```
     docker pull 3liyounes/pearl_robots:franka
     ```
@@ -75,30 +76,29 @@ Then you have two options:
     ```
     docker build -t projectlab .
     ```
-
     **Create a container with a name** to contain the pulled image (only once!)
     ```
     source ~/.bashrc
     docker_run_nvidia --name=container_name 3liyounes/pearl_robots:franka bash
     ```
 
-* If your PC does not have NVIDIA
-    Pull the docker image <br>
+* If your PC does not have an Nvidia GPU:
+
+    Pull the docker image
+  
     For **Tiago**:
     ```
     docker pull 3liyounes/pearl_robots:tiago_wo_nvidia
     ```
     For **Franka**:
-
-    Use the pre-built docker image available at dockerhub:
+    use the pre-built docker image available at dockerhub:
     ```
     docker pull 3liyounes/pearl_robots:franka_wo_nvidia
     ```
-    OR Build the given Dockerfile in the Docker_franka directory in this repository. Rename the `Dockerfile_no_GPU` to `Dockerfile`, enter the Docker_franka folder and then build it:
+    OR build the given Dockerfile in the Docker_franka directory in this repository. Rename the `Dockerfile_no_GPU` to `Dockerfile`, enter the Docker_franka folder and then build it:
     ```
     docker build -t projectlab .
     ```
-
     **Create a container with a name** to contain the pulled image (only once!)
     ```
     source ~/.bashrc
