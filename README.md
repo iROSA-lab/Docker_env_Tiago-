@@ -1,7 +1,7 @@
 # Docker for robots
 
-The instructions to setup a docker image for Tiago++ in ROS, with X11 forwarding to use stream GUI to the monitor of the host PC.
-Table of contents
+The instructions to set up a docker image for Franka/Tiago++ in ROS, with X11 forwarding to use stream GUI to the monitor of the host PC.
+
 - [Docker for robots](#docker-for-robots)
   - [Linux installation:](#linux-installation)
   - [Isaac sim docker](#isaac-sim-docker)
