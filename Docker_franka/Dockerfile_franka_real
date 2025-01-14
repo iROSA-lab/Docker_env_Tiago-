@@ -85,8 +85,10 @@ RUN . /opt/ros/noetic/setup.sh && \
 
 # Install zed ros wrapper
 RUN cd src \
-    && git clone --recursive https://github.com/stereolabs/zed-ros-wrapper.git \
-    && cd ../ \
+    && git clone --recursive https://github.com/stereolabs/zed-ros-wrapper.git 
+
+WORKDIR /opt/ros_ws/
+RUN . /opt/ros/noetic/setup.sh \
     && rosdep install --from-paths src --ignore-src -r -y \
     && catkin_make -DCMAKE_BUILD_TYPE=Release
 
