@@ -1,0 +1,102 @@
+# Author: PEARL
+# Last update: 14/01/2025
+
+
+# Base image of ubuntu 20.04, cuda 12.1 and ZED SDK 4.1
+FROM stereolabs/zed:4.1-devel-cuda12.1-ubuntu20.04
+
+ENV LOGNAME root
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
+
+# Setup ROS noetic
+RUN apt-get update -y || true && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata curl locales lsb-release gnupg2 mesa-utils apt-transport-https && \
+    sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
+    curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add - && \
+    echo 'export LIBGL_ALWAYS_INDIRECT=1' >> ~/.bashrc && \
+    apt-get update || true &&\
+    DEBIAN_FRONTEND=noninteractive apt-get install -y ros-noetic-desktop-full build-essential cmake usbutils libusb-1.0-0-dev git -y --allow-unauthenticated
+
+# Install Packages
+RUN apt-get install -y python3-rosdep python3-rosinstall  python3-rosinstall-generator python3-wstool
+
+# Install Moveit!
+RUN apt-get update -q && \
+    apt-get dist-upgrade -q -y && \
+    apt-get install -y ros-noetic-moveit && \
+    rm -rf /var/lib/apt/lists/*
+
+# Initialize rosdep
+RUN rosdep init && rosdep update
+
+# Source ROS
+RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+
+# Setup ROS workspace
+RUN mkdir -p /opt/ros_ws/src
+WORKDIR /opt/ros_ws
+RUN  . /opt/ros/noetic/setup.sh && \
+	    catkin_make 
+
+RUN echo "source /opt/ros_ws/devel/setup.bash" >> ~/.bashrc
+
+# Install libfranka
+WORKDIR /opt/
+RUN apt-get update
+RUN apt-get install build-essential cmake git libpoco-dev libeigen3-dev
+
+RUN apt-get install -y liburdfdom-headers-dev libconsole-bridge-dev libtinyxml2-dev \
+    && apt-get install -qqy lsb-release curl \
+    && mkdir -p /etc/apt/keyrings \
+    && curl http://robotpkg.openrobots.org/packages/debian/robotpkg.asc | tee /etc/apt/keyrings/robotpkg.asc \
+    && echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/robotpkg.asc] http://robotpkg.openrobots.org/packages/debian/pub $(lsb_release -cs) robotpkg" | tee /etc/apt/sources.list.d/robotpkg.list \
+    && apt-get update \
+    && apt-get install -qqy robotpkg-pinocchio
+
+ARG libfranka_version=0.14.1
+
+RUN git clone --recursive https://github.com/frankaemika/libfranka.git \
+    && cd libfranka \
+    && git tag -l \
+    && git checkout $libfranka_version \
+    && git submodule update \
+    && mkdir build && cd build \
+    && export CMAKE_PREFIX_PATH=/opt/openrobots/lib/cmake \
+    && cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF [-DCMAKE_PREFIX_PATH=/opt/openrobots/lib/cmake] .. \
+    && cmake --build . 
+
+# Install franka_ros
+WORKDIR /opt/ros_ws/src/
+RUN git clone --recursive https://github.com/frankaemika/franka_ros \
+    && cd franka_ros
+
+WORKDIR /opt/ros_ws/
+RUN . /opt/ros/noetic/setup.sh \
+    && rosdep install --from-paths src --ignore-src --rosdistro noetic -y --skip-keys libfranka \
+    && catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=/opt/libfranka/build
+
+# Install franka_zed_gazebo
+RUN cd src && \
+    git clone https://github.com/pearl-robot-lab/franka_zed_gazebo.git
+
+RUN . /opt/ros/noetic/setup.sh && \
+	catkin_make --pkg franka_zed_gazebo
+
+# Install zed ros wrapper
+RUN cd src \
+    && git clone --recursive https://github.com/stereolabs/zed-ros-wrapper.git \
+    && cd ../ \
+    && rosdep install --from-paths src --ignore-src -r -y \
+    && catkin_make -DCMAKE_BUILD_TYPE=Release
+
+# Install panda_moveit_config
+RUN cd src && \
+    git clone https://github.com/moveit/panda_moveit_config.git -b noetic-devel
+
+RUN . /opt/ros/noetic/setup.sh && \
+    catkin_make -DCMAKE_BUILD_TYPE=Release
+
+RUN bash -c "source /opt/ros_ws/devel/setup.bash"
+RUN bash -c "source /opt/ros/noetic/setup.bash"
+RUN bash -c "source ~/.bashrc"

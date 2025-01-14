@@ -19,6 +19,8 @@ jobs:
             file: Docker_franka/Dockerfile_nvidia
           - robot: franka_wo_nvidia
             file: Docker_franka/Dockerfile_no_GPU
+          - robot: franka_real
+            file: Docker_franka/Dockerfile_franka_real
       max-parallel: 1
       fail-fast: true
     # Steps represent a sequence of tasks that will be executed as part of the job
